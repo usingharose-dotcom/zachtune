@@ -1,4 +1,4 @@
-name: Build RedTune VST3
+name: Build ZachTune VST3
 
 on:
   workflow_dispatch:
@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -19,10 +18,11 @@ jobs:
         run: cmake -B build -S . -A x64
 
       - name: Build VST3
-        run: cmake --build build --config Release
+        run: cmake --build build --config Release --parallel
 
       - name: Upload VST3
         uses: actions/upload-artifact@v4
         with:
-          name: RedTune-VST3
-          path: build/**/*RedTune*.vst3/**
+          name: ZachTune-VST3
+          path: build/ZachTune_artefacts/Release/VST3/ZachTune.vst3/**
+          if-no-files-found: error
