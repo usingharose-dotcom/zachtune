@@ -11,7 +11,7 @@ ZachTuneAudioProcessorEditor::ZachTuneAudioProcessorEditor(ZachTuneAudioProcesso
         label.setColour(juce::Label::textColourId, colour);
         addAndMakeVisible(label);
     };
-    setupLabel(title, "ZACHTUNE",  thirty, juce::Colours::white);
+    setupLabel(title, "ZACHTUNE", 30, juce::Colours::white);
     setupLabel(subtitle, "REAL-TIME VOCAL TUNING  /  VST3", 13, juce::Colour(0xffa8a8a8));
     setupLabel(status, "ENGINE PREVIEW  •  PITCH DSP NOT ENABLED", 12, juce::Colour(0xffff5555));
 
