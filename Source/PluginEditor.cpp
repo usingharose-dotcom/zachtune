@@ -8,7 +8,7 @@ ZachTuneLookAndFeel::ZachTuneLookAndFeel(){
 }
 void ZachTuneLookAndFeel::drawRotarySlider(juce::Graphics& g,int x,int y,int w,int h,float p,float start,float end,juce::Slider&){
  float s=(float)juce::jmin(w,h)-12,cx=x+w*.5f,cy=y+h*.5f,r=s*.5f; auto b=juce::Rectangle<float>(cx-r,cy-r,s,s);
- g.setColour(juce::Colour(0xff39393f));g.drawArc(b,start,end,true,7);g.setColour(red);g.drawArc(b,start,start+(end-start)*p,true,7);
+ juce::Path track; track.addCentredArc(cx,cy,r,r,0.0f,start,end,true); g.setColour(juce::Colour(0xff39393f)); g.strokePath(track,juce::PathStrokeType(7.0f)); juce::Path value; value.addCentredArc(cx,cy,r,r,0.0f,start,start+(end-start)*p,true); g.setColour(red); g.strokePath(value,juce::PathStrokeType(7.0f));
  g.setColour(juce::Colour(0xff19191e));g.fillEllipse(b.reduced(11));g.setColour(juce::Colour(0xff44444b));g.drawEllipse(b.reduced(11),1.5f);
  float a=start+(end-start)*p;g.setColour(white);g.fillEllipse(cx+std::cos(a)*(r-2)-6,cy+std::sin(a)*(r-2)-6,12,12);
 }
