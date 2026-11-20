@@ -1,44 +1,31 @@
 #pragma once
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-
-class ZachTuneLookAndFeel final : public juce::LookAndFeel_V4
-{
+class ZachTuneLookAndFeel final : public juce::LookAndFeel_V4 {
 public:
-    ZachTuneLookAndFeel();
-    void drawRotarySlider(juce::Graphics&, int, int, int, int, float, float, float, juce::Slider&) override;
+ ZachTuneLookAndFeel();
+ void drawRotarySlider(juce::Graphics&,int,int,int,int,float,float,float,juce::Slider&) override;
 };
-
-class ZachTuneAudioProcessorEditor final : public juce::AudioProcessorEditor,
-                                            private juce::Timer
-{
+class ZachTuneAudioProcessorEditor final : public juce::AudioProcessorEditor, private juce::Timer {
 public:
-    explicit ZachTuneAudioProcessorEditor(ZachTuneAudioProcessor&);
-    ~ZachTuneAudioProcessorEditor() override;
-    void paint(juce::Graphics&) override;
-    void resized() override;
-
+ explicit ZachTuneAudioProcessorEditor(ZachTuneAudioProcessor&);
+ ~ZachTuneAudioProcessorEditor() override;
+ void paint(juce::Graphics&) override;
+ void resized() override;
 private:
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
-    using ComboAttachment = juce::AudioProcessorValueTreeState::ComboBoxAttachment;
-    void timerCallback() override;
-    void setupKnob(juce::Slider&, const juce::String&, bool rotary = true);
-    void setupCombo(juce::ComboBox&);
-    void setupButton(juce::TextButton&);
-    void drawPanel(juce::Graphics&, juce::Rectangle<float>, const juce::String&);
-    void resetParameters();
-
-    ZachTuneAudioProcessor& processor;
-    ZachTuneLookAndFeel lookAndFeel;
-    juce::Slider retune, humanize, flexTune, vibrato, mix, formant, transpose, output;
-    juce::ComboBox key, scale, correctionStyle, latency, preset;
-    juce::TextButton autoTab { "Auto-Tune" }, graphTab { "Graph Mode" }, advancedTab { "Advanced" };
-    juce::TextButton undoButton { "↶" }, redoButton { "↷" }, copyButton { "Copy" }, pasteButton { "Paste" }, initButton { "Init" };
-    juce::TextButton modeAuto { "Auto" }, modeGraph { "Graph" }, abButton { "A | B" };
-    juce::Label logo, status;
-    std::unique_ptr<SliderAttachment> retuneA, humanizeA, flexA, vibratoA, mixA, formantA, transposeA, outputA;
-    std::unique_ptr<ComboAttachment> keyA, scaleA, styleA, latencyA;
-    juce::ValueTree copiedState, stateB;
-    bool showingGraph = false, showingAdvanced = false, activeB = false;
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ZachTuneAudioProcessorEditor)
+ using SA=juce::AudioProcessorValueTreeState::SliderAttachment;
+ using CA=juce::AudioProcessorValueTreeState::ComboBoxAttachment;
+ void timerCallback() override;
+ void slider(juce::Slider&); void combo(juce::ComboBox&); void button(juce::TextButton&);
+ void place(juce::Component&,float,float,float,float); void reset(); void tab(int);
+ ZachTuneAudioProcessor& processor; ZachTuneLookAndFeel lf;
+ juce::Slider retune,humanize,flexTune,vibrato,mix,formant,transpose,output;
+ juce::ComboBox key,scale,style,latency,preset;
+ juce::TextButton autoTab{"AUTO-TUNE"},graphTab{"GRAPH MODE"},advancedTab{"ADVANCED"};
+ juce::TextButton undo{"↶"},redo{"↷"},copy{"Copy"},paste{"Paste"},init{"Init"},ab{"A | B"},modeAuto{"AUTO"},modeGraph{"GRAPH"};
+ juce::Label logo,subtitle;
+ std::unique_ptr<SA> aRetune,aHuman,aFlex,aVibrato,aMix,aFormant,aTranspose,aOutput;
+ std::unique_ptr<CA> aKey,aScale,aStyle,aLatency;
+ juce::ValueTree copied,slotA,slotB; int activeTab=0; bool useB=false;
+ JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ZachTuneAudioProcessorEditor)
 };
